@@ -45,9 +45,9 @@ export default class UserCrud extends Component {
     /** Função que retorna uma no lista com base na exitente tirando o user se existe
      * e adicionando novo usuário caso a operação seja um PUT
      */
-    getUpdateList(user){
+    getUpdateList(user, add=true){
         const list = this.state.list.filter(u => u.id !== user.id)
-        if(user) list.unshift(user)
+        if(add) list.unshift(user)
         return list
     }
 
@@ -85,7 +85,7 @@ export default class UserCrud extends Component {
                 </div>
                 <hr/>
                 <div className="row">
-                    <div className="col-12 d-flex justity-content-end">
+                    <div className="col-12 d-flex justify-content-end">
                         <button className="btn btn-primary"
                             onClick={ e => this.save(e) } >
                             Salvar
@@ -106,7 +106,7 @@ export default class UserCrud extends Component {
 
     remove(user){
         axios.delete(`${baseUrl}/${user.id}`).then(resp => {
-            const list = this.getUpdateList(null)
+            const list = this.getUpdateList(user, false)
             this.setState({ list })
         })
     }
@@ -139,7 +139,7 @@ export default class UserCrud extends Component {
                             onClick={() => this.load(user)}>
                             <i className="fa fa-pencil"></i>
                         </button>
-                        <button className="btn btn-warning ml-2"
+                        <button className="btn btn-danger ml-2"
                             onClick={() => this.remove(user)}>
                             <i className="fa fa-trash"></i>
                         </button>
